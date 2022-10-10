@@ -2,9 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -34,8 +34,8 @@ func loadApiConfig(filename string) (apiConfigData, error) {
 	return c, nil
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Hello from Go\n"))
+func welcome(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Welcome To WeatherApp\n"))
 }
 
 func query(city string) (weatherData, error) {
@@ -57,8 +57,10 @@ func query(city string) (weatherData, error) {
 }
 
 func main() {
-	http.HandleFunc("/hello", hello)
-	fmt.Println("Port 8080")
+	port := os.Getenv("PORT")
+
+	http.HandleFunc("/", welcome)
+	//fmt.Println("Port 8080")
 
 	http.HandleFunc("/weather/",
 		func(w http.ResponseWriter, r *http.Request) {
@@ -72,5 +74,5 @@ func main() {
 			json.NewEncoder(w).Encode(data)
 		})
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":"+port, nil)
 }
