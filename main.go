@@ -10,6 +10,7 @@ import (
 
 type apiConfigData struct {
 	OpenWeatherMapApiKey string `json:"OpenWeatherMapApiKey"`
+	
 }
 
 type weatherData struct {
